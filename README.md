@@ -19,12 +19,12 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
 
 ## Installation
 
-**TODO:** python venv setup, module installation, etc.
+**TODO:** python venv setup, dependencies, etc.
 
-**TODO:** install and configure mediamtx, set up service to autostart (download
-and configure golang env if necessary to build mediamtx)
+**TODO:** install and configure `mediamtx`, set up service to autostart
+(download and configure golang env if necessary to build `mediamtx`)
 
-**TODO:** install ffmpeg and libusb-1.0-0-dev
+**TODO:** install `ffmpeg` and `libusb-1.0-0-dev` packages
 
 
 ## Usage
@@ -42,8 +42,8 @@ video stream ends, videobridge will resume searching until a valid stream is
 found.
 
 Once the stream is opened and synchronized, videobridge uses `ffmpeg` to
-send the video data to a local mediamtx instance over RTSP (8554/tcp).
-The mediamtx server then re-encapsulates and streams the video to clients.
+send the video data to a local `mediamtx` instance over RTSP (8554/tcp).
+The `mediamtx` server then re-encapsulates and streams the video to clients.
 
 > [!NOTE]
 > *No more worrying about what order you plug things in!  videobridge will
@@ -52,7 +52,7 @@ The mediamtx server then re-encapsulates and streams the video to clients.
 (DJI FPV Goggles v2 have been tested, v1 should work also... Goggles 2 and
 Integra with H.265 may work, but still needs testing.)
 
-Multiple local or network clients can connect to mediamtx over any supported
+Multiple local or network clients can connect to `mediamtx` over any supported
 protocol (including HLS, RTMP, WebRTC, etc.) and stream the video data
 with no transcoding or extra delay.  Depending on the local video decode and
 display hardware that is available, a local client may even display the stream
