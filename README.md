@@ -12,7 +12,9 @@ process a little smoother.  By avoiding transcoding and unnecessary buffering,
 it provides a maximum quality, minimal latency video stream to your browser or
 broadcasting software (e.g. OBS) running on the same host or over the network.
 
-**NOTE:** This code is very much a work in progress.
+{% warning %}
+**Warning:** This code is very much a work in progress.
+{% endwarning %}
 
 
 ## Installation
@@ -28,28 +30,33 @@ and configure golang env if necessary to build mediamtx)
 ## Usage
 
 Upon startup, videobridge will search the USB bus for a set of DJI FPV Goggles,
-look for a video signal from the air unit, and then begin feeding that signal
-to the local mediamtx server (RTSP on port 8554).  It will continue retrying
-until a valid video stream can be detected.
+open the USB bulk video input interface, and send the DJI DUML command to
+initiate video streaming.
 
 Once the compressed stream (AVC or HEVC elementary stream) starts arriving from
 the goggles, videobridge will wait until the first complete SPS (sequence
 parameter set) header arrives.  This SPS NALU is roughly equivalent to the 
 start of an I-frame; all NAL units can be decoded without access to any data
 arriving before the SPS NALU.  If stream synchronization fails, or the video
-stream ends, videobridge will resume searching.
+stream ends, videobridge will resume searching until a valid stream is found.
 
+Once the stream is opened and synchronized, videobridge uses `ffmpeg` to
+send the video data to a local mediamtx instance over RTSP (8554/tcp).
+The mediamtx server then re-encapsulates and streams the video to clients.
+
+{% note %}
 *No more worrying about what order you plug things in!  videobridge will
 automatically reconnect when your quad resumes sending video.*
 (DJI FPV Goggles v2 have been tested, v1 should work also... Goggles 2 and
 Integra with H.265 may work, but still needs testing.)
+{% endnote %}
 
 Multiple local or network clients can connect to mediamtx over any supported
-protocol (including HLS, RTMP, WebRTC, etc.) and stream the original video data
+protocol (including HLS, RTMP, WebRTC, etc.) and stream the video data
 with no transcoding or extra delay.  Depending on the local video decode and
-display hardware that is available, a local client can even display the stream
+display hardware that is available, a local client may even display the stream
 in near real-time over an HDMI port or on a connected laptop display for a live
-preview.
+on-board preview.
 
 
 ## Credits / Prior Art
