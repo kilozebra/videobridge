@@ -1,5 +1,9 @@
 # videobridge
 
+> [!IMPORTANT]
+> **Warning:** This code is very much a work in progress.
+
+
 ## Description
 
 Streaming live digital FPV footage from your DJI goggles to share with friends
@@ -11,9 +15,6 @@ This tool, in conjunction with the excellent
 process a little smoother.  By avoiding transcoding and unnecessary buffering, 
 it provides a maximum quality, minimal latency video stream to your browser or
 broadcasting software (e.g. OBS) running on the same host or over the network.
-
-> [!IMPORTANT]
-> **Warning:** This code is very much a work in progress.
 
 
 ## Installation
@@ -35,9 +36,10 @@ initiate video streaming.
 Once the compressed stream (AVC or HEVC elementary stream) starts arriving from
 the goggles, videobridge will wait until the first complete SPS (sequence
 parameter set) header arrives.  This SPS NALU is roughly equivalent to the 
-start of an I-frame; all NAL units can be decoded without access to any data
-arriving before the SPS NALU.  If stream synchronization fails, or the video
-stream ends, videobridge will resume searching until a valid stream is found.
+start of an I-frame; all subsequent NAL units can be decoded without access to
+any data arriving before the SPS NALU.  If stream synchronization fails, or the
+video stream ends, videobridge will resume searching until a valid stream is
+found.
 
 Once the stream is opened and synchronized, videobridge uses `ffmpeg` to
 send the video data to a local mediamtx instance over RTSP (8554/tcp).
