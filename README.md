@@ -19,15 +19,15 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
 
 ## Installation
 
-**TODO:** python venv setup, dependencies, etc.
+**TODO:** install `ffmpeg` and `libusb-1.0-0-dev` packages
 
 **TODO:** install and configure `mediamtx`, set up service to autostart
 (download and configure golang env if necessary to build `mediamtx`)
 
-**TODO:** install `ffmpeg` and `libusb-1.0-0-dev` packages
+**TODO:** optional python3 venv setup, PyUSB installation (package or pip3)
 
 
-## Usage
+## Details
 
 Upon startup, videobridge will search the USB bus for a set of DJI FPV Goggles,
 open the USB bulk video input interface, and send the DJI DUML command to
