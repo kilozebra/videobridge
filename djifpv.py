@@ -146,7 +146,7 @@ def seek_nalu(dev, intf, max_bytes=int(10e6)):
 				chunk = data
 
 			for match in re.finditer(nal_delim, chunk):
-				## Read 2 butes after NAL unit delimiter to determine unit type
+				## Read 2 bytes after NAL unit delimiter to determine unit type
 				header_start = match.start() + len(nal_delim)
 				header = int.from_bytes(chunk[header_start:header_start + header_len], "big")
 				sync = nal_unit(header)

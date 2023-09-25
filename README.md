@@ -47,7 +47,7 @@ The `mediamtx` server then re-encapsulates and streams the video to clients.
 
 > [!NOTE]
 > *No more worrying about what order you plug things in!  videobridge will
-> automatically reconnect when your quad resumes sending video.*
+> automatically reconnect when your air unit resumes sending video.*
 
 (DJI FPV Goggles v2 have been tested, v1 should work also... Goggles 2 and
 Integra with H.265 may work, but still require testing.)
