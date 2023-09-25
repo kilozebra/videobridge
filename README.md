@@ -23,27 +23,24 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
 
 **TODO:** install ffmpeg and libusb-1.0-0-dev
 
-**TODO:** infinite-retry wrapper or unit files
-
 
 ## Usage
 
 Upon startup, videobridge will search the USB bus for a set of DJI FPV Goggles,
 look for a video signal from the air unit, and then begin feeding that signal
-to the local mediamtx server (RTSP on port 8554).
+to the local mediamtx server (RTSP on port 8554).  It will continue retrying
+until a valid video stream can be detected.  When the video stream ends, videobridge
+will resume searching.  No more worrying about what order you plug things into 
+the goggles -- videobridge will find your feed once it's live.
 
 (DJI FPV Goggles v2 have been tested, v1 should work also... Goggles 2 and Integra with
-H.265 still need some NALU processing changes and testing).
-
-**NOTE:** In the current version, if the goggles are unavailable, or a video
-stream is not currently being received, or is not H.264, the code will exit
-almost immediately with an exception.  For the time being, this needs to be run
-inside an infinite loop, like a simple shell script or a service manager with no
-retry backoff/failure counter.
+H.265 still need some NALU processing changes and testing.)
 
 Multiple local or network clients can connect to mediamtx over any supported
 protocol (including HLS, RTMP, WebRTC, etc.) and stream the original video data
-with no transcoding or extra delay.
+with no transcoding or extra delay.  Depending on the local video decode and display
+hardware that is available, a local client can even display the stream in near real-time
+over an HDMI port or on a connected laptop display for a live preview.
 
 
 ## Credits / Prior Art
