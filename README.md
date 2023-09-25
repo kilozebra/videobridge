@@ -12,8 +12,8 @@ process a little smoother.  By avoiding transcoding and unnecessary buffering,
 it provides a maximum quality, minimal latency video stream to your browser or
 broadcasting software (e.g. OBS) running on the same host or over the network.
 
-[!IMPORTANT]
-**Warning:** This code is very much a work in progress.
+> [!IMPORTANT]
+> **Warning:** This code is very much a work in progress.
 
 
 ## Installation
@@ -43,9 +43,10 @@ Once the stream is opened and synchronized, videobridge uses `ffmpeg` to
 send the video data to a local mediamtx instance over RTSP (8554/tcp).
 The mediamtx server then re-encapsulates and streams the video to clients.
 
-[!NOTE]
-*No more worrying about what order you plug things in!  videobridge will
-automatically reconnect when your quad resumes sending video.*
+> [!NOTE]
+> *No more worrying about what order you plug things in!  videobridge will
+> automatically reconnect when your quad resumes sending video.*
+
 (DJI FPV Goggles v2 have been tested, v1 should work also... Goggles 2 and
 Integra with H.265 may work, but still needs testing.)
 
