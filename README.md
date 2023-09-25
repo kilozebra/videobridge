@@ -50,7 +50,7 @@ The `mediamtx` server then re-encapsulates and streams the video to clients.
 > automatically reconnect when your quad resumes sending video.*
 
 (DJI FPV Goggles v2 have been tested, v1 should work also... Goggles 2 and
-Integra with H.265 may work, but still needs testing.)
+Integra with H.265 may work, but still require testing.)
 
 Multiple local or network clients can connect to `mediamtx` over any supported
 protocol (including HLS, RTMP, WebRTC, etc.) and stream the video data
@@ -79,4 +79,4 @@ abstraction layer) unit parsing, I relied on the ITU's standards documents:
 [Yumi Chan's blog](https://yumichan.net/video-processing/video-compression/introduction-to-h264-nal-unit/)
 ([archived](https://web.archive.org/web/20230330054552/https://yumichan.net/video-processing/video-compression/introduction-to-h264-nal-unit/))
 has an outstanding overview of NALUs in plain English if you're confused by
-the ITU specifications,
+the ITU specifications.
