@@ -131,12 +131,12 @@ def nal_unit(header):
 	# 35		AUD
 	# 36		EOS
 	# 37		EOB
-	evc_unit_type = (0x7f00 & header) >> 9;
-	evc_lid = (0x01f8 & header) >> 3;
-	evc_tid = (0x0007 & header)
-	if forbidden_bit == 0 and evc_unit_type == 33:
-		#print("evc hea3 der: {}, forbidden_bit: {}, evc_unit_type: {}, evc_lid: {}, evc_tid: {}".format(header, forbidden_bit, evc_unit_type, evc_lid, evc_tid))
-		print("EVC SPS found!", file=sys.stderr)
+	hevc_unit_type = (0x7f00 & header) >> 9;
+	hevc_lid = (0x01f8 & header) >> 3;
+	hevc_tid = (0x0007 & header)
+	if forbidden_bit == 0 and hevc_unit_type == 33:
+		#print("hevc header: {}, forbidden_bit: {}, hevc_unit_type: {}, hevc_lid: {}, hevc_tid: {}".format(header, forbidden_bit, hevc_unit_type, hevc_lid, hevc_tid))
+		print("HEVC SPS found!", file=sys.stderr)
 		return True
 
 	## No valid stream found
