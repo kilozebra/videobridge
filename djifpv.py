@@ -121,7 +121,7 @@ def nal_unit(header):
 		#print("avc header: {}, forbidden_bit: {}, avc_idc: {}, avc_unit_type: {}".format(header, forbidden_bit, avc_idc, avc_unit_type))
 		print("AVC SPS found!", file=sys.stderr)
 		return True
-	
+
 	## H.265/HEVC NAL header parsing
 	# file:///U:/docs/T-REC-H.265-202108-I!!PDF-E.pdf
 	# page 66
@@ -134,7 +134,12 @@ def nal_unit(header):
 	evc_unit_type = (0x7f00 & header) >> 9;
 	evc_lid = (0x01f8 & header) >> 3;
 	evc_tid = (0x0007 & header)
-	#print("evc header: {}, forbidden_bit: {}, evc_unit_type: {}, evc_lid: {}, evc_tid: {}".format(header, forbidden_bit, evc_unit_type, evc_lid, evc_tid))
+	if forbidden_bit == 0 and evc_unit_type == 33:
+		#print("evc hea3 der: {}, forbidden_bit: {}, evc_unit_type: {}, evc_lid: {}, evc_tid: {}".format(header, forbidden_bit, evc_unit_type, evc_lid, evc_tid))
+		print("EVC SPS found!", file=sys.stderr)
+		return True
+
+	## No valid stream found
 	return False
 	
 

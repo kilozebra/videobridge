@@ -34,7 +34,7 @@ will resume searching.  No more worrying about what order you plug things into
 the goggles -- videobridge will find your feed once it's live.
 
 (DJI FPV Goggles v2 have been tested, v1 should work also... Goggles 2 and Integra with
-H.265 still need some NALU processing changes and testing.)
+H.265 may work, but still need testing.)
 
 Multiple local or network clients can connect to mediamtx over any supported
 protocol (including HLS, RTMP, WebRTC, etc.) and stream the original video data
