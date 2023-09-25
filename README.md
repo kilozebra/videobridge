@@ -1,7 +1,7 @@
 # videobridge
 
 > [!IMPORTANT]
-> **Warning:** This code is very much a work in progress.
+> This code is very much a work in progress.
 
 
 ## Description
