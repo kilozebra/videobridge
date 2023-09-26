@@ -36,8 +36,7 @@ default configuration and port numbers.  If a pre-built binary is unavailable
 for your platform (e.g. arm64/aarch64), you may need to build mediamtx from
 source using an appropriate golang environment.
 1. (*Optional*) Configure mediamtx to [start on boot](https://github.com/bluenviron/mediamtx#start-on-boot).
-1. Set up a Python 3 venv for the installation (will automatically create
-parent directories as needed).
+1. Set up a Python 3 venv for the installation (will automatically create parent directories as needed).
 
   $ sudo python3 -m venv /opt/videobridge/env
 
@@ -45,7 +44,7 @@ parent directories as needed).
 
   $ sudo cp -r * /opt/videobridge
 
-6. Install Python dependencies in the virtual environment.
+1. Install Python dependencies in the virtual environment.
 
   $ sudo /opt/videobridge/env/bin/python3 -m pip install -r /opt/videobridge/requirements.txt
   Collecting pyusb
@@ -54,8 +53,7 @@ parent directories as needed).
   Installing collected packages: pyusb
   Successfully installed pyusb-1.2.1
 
-1. (*Optional*) If you installed to somewhere other than `/opt/videobridge`.
-modify the `DIR` variable in `run-videobridge.sh`.
+1. (*Optional*) If you installed to somewhere other than `/opt/videobridge`.  modify the `DIR` variable in `run-videobridge.sh`.
 
 For more information about Python 3 virtual environments, see the
 [documentation](https://docs.python.org/3/library/venv.html).
