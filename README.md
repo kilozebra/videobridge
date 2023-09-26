@@ -27,30 +27,29 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
 
 1. Install python3, python3-venv, ffmpeg, and libusb-1.0 (might be `libusb` [OS X], `libusb-1.0-0` [Debian], etc.) using your system package manager.
 
-   $ sudo apt install python3 python3-venv python3-pip ffmpeg libusb-1.0-0
+    $ sudo apt install python3 python3-venv python3-pip ffmpeg libusb-1.0-0
 
-1. Install `mediamtx` using the [documentation](https://github.com/bluenviron/mediamtx#installation)
-in that repository.  The rest of this process assumes that you have used the
-default configuration and port numbers.  If a pre-built binary is unavailable
-for your platform (e.g. arm64/aarch64), you may need to build mediamtx from
-source using an appropriate golang environment.
+1. Install `mediamtx` using the [documentation](https://github.com/bluenviron/mediamtx#installation) in that repository.  The rest of this process assumes that you have used the default configuration and port numbers.  If a pre-built binary is unavailable for your platform (e.g. arm64/aarch64), you may need to build mediamtx from source using an appropriate golang environment.
 1. (*Optional*) Configure mediamtx to [start on boot](https://github.com/bluenviron/mediamtx#start-on-boot).
 1. Set up a Python 3 venv for the installation (will automatically create parent directories as needed).
 
-  $ sudo python3 -m venv /opt/videobridge/env
+    $ sudo python3 -m venv /opt/videobridge/env
 
 1. Copy code to install directory.
 
-  $ sudo cp -r * /opt/videobridge
+    $ sudo cp -r * /opt/videobridge
 
 1. Install Python dependencies in the virtual environment.
 
-  $ sudo /opt/videobridge/env/bin/python3 -m pip install -r /opt/videobridge/requirements.txt
-  Collecting pyusb
-    Downloading pyusb-1.2.1-py3-none-any.whl (58 kB)
-       ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.4/58.4 kB ? eta 0:00:00
-  Installing collected packages: pyusb
-  Successfully installed pyusb-1.2.1
+    $ sudo /opt/videobridge/env/bin/python3 -m pip install -r /opt/videobridge/requirements.txt
+
+    ```
+    Collecting pyusb
+      Downloading pyusb-1.2.1-py3-none-any.whl (58 kB)
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.4/58.4 kB ? eta 0:00:00
+    Installing collected packages: pyusb
+    Successfully installed pyusb-1.2.1
+    ```
 
 1. (*Optional*) If you installed to somewhere other than `/opt/videobridge`.  modify the `DIR` variable in `run-videobridge.sh`.
 
