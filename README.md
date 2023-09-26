@@ -27,10 +27,8 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
 
 1. Install python3, python3-venv, ffmpeg, and libusb-1.0 (might be
  `libusb` [OS X], `libusb-1.0-0` [Debian], etc.) using your system package manager.
-   ```
-   $ sudo apt install python3 python3-venv python3-pip ffmpeg libusb-1.0-0`
-   ```
 
+   $ sudo apt install python3 python3-venv python3-pip ffmpeg libusb-1.0-0`
 
 2. Install `mediamtx` using the [documentation](https://github.com/bluenviron/mediamtx#installation)
 in that repository.  The rest of this process assumes that you have used the
@@ -42,24 +40,21 @@ source using an appropriate golang environment.
 
 4. Set up a Python 3 venv for the installation (will automatically create
 parent directories as needed).
-  ```
+
   $ sudo python3 -m venv /opt/videobridge/env
-  ```
 
 5. Copy code to install directory.
-  ```
+
   $ sudo cp -r * /opt/videobridge
-  ```
 
 6. Install Python dependencies in the virtual environment.
-  ```
+
   $ sudo /opt/videobridge/env/bin/python3 -m pip install -r /opt/videobridge/requirements.txt
   Collecting pyusb
     Downloading pyusb-1.2.1-py3-none-any.whl (58 kB)
        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.4/58.4 kB ? eta 0:00:00
   Installing collected packages: pyusb
   Successfully installed pyusb-1.2.1
-  ```
 
 7. (*Optional*) If you installed to somewhere other than `/opt/videobridge`.
 modify the `DIR` variable in `run-videobridge.sh`.
@@ -71,9 +66,8 @@ For more information about Python 3 virtual environments, see the
 ## Usage
 
 If `mediamtx` is not running already, start it.  Then start `videobridge`:
-  ```
+
   $ sudo /opt/videobridge/run-videobridge.sh
-  ```
 
 Output from `videobridge` and `ffmpeg` will be mixed on stderr.
 
