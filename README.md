@@ -25,10 +25,9 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
 
 ## Installation
 
-1. Install python3, python3-venv, ffmpeg, and libusb-1.0 (might be
- `libusb` [OS X], `libusb-1.0-0` [Debian], etc.) using your system package manager.
+1. Install python3, python3-venv, ffmpeg, and libusb-1.0 (might be `libusb` [OS X], `libusb-1.0-0` [Debian], etc.) using your system package manager.
 
-   $ sudo apt install python3 python3-venv python3-pip ffmpeg libusb-1.0-0`
+   $ sudo apt install python3 python3-venv python3-pip ffmpeg libusb-1.0-0
 
 1. Install `mediamtx` using the [documentation](https://github.com/bluenviron/mediamtx#installation)
 in that repository.  The rest of this process assumes that you have used the
