@@ -64,9 +64,9 @@ For more information about Python 3 virtual environments, see the
 > rule to make the DJI Goggles accessible by a non-root user and/or group.
 
 Start mediamtx if it is not running.  Then run videobridge.
-Output from `videobridge` and `ffmpeg` will be mixed on stderr.
+Output from videobridge and ffmpeg will be mixed on stderr.
 
-    `$ sudo /opt/videobridge/run-videobridge.sh`
+    $ sudo /opt/videobridge/run-videobridge.sh
 
 In a WebRTC-capable browser, go to `http://IP_ADDRESS:8889/live/djifpv`
 (replace `IP_ADDRESS` with the address the device running mediamtx).
