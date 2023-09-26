@@ -59,22 +59,20 @@ For more information about Python 3 virtual environments, see the
 
 ## Usage
 
-If `mediamtx` is not running already, start it.  Then start `videobridge`:
+> [!NOTE]
+> To avoid the need to run videobridge as root, set up a [udev](https://www.man7.org/linux/man-pages/man7/udev.7.html)
+> rule to make the DJI Goggles accessible by a non-root user and/or group.
 
-  $ sudo /opt/videobridge/run-videobridge.sh
-
+Start mediamtx if it is not running.  Then run videobridge.
 Output from `videobridge` and `ffmpeg` will be mixed on stderr.
 
-> [!NOTE]
-> To avoid running as root, use a [udev](https://www.man7.org/linux/man-pages/man7/udev.7.html)
-> rule to make the DJI Goggles accessible by a non-root user and/or group.
+    `$ sudo /opt/videobridge/run-videobridge.sh`
 
 In a WebRTC-capable browser, go to `http://IP_ADDRESS:8889/live/djifpv`
 (replace `IP_ADDRESS` with the address the device running mediamtx).
 
 Power up your goggles, plug them in, and connect a battery to your craft.
 After a few seconds, you should see the video appear in your browser.
-
 For more playback protocol and client options, see the [Read from the server](https://github.com/bluenviron/mediamtx#read-from-the-server)
 section of the mediamtx documentation.
 
