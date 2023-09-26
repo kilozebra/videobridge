@@ -17,36 +17,81 @@ it provides a maximum quality, minimal latency video stream to your browser or
 broadcasting software (e.g. OBS) running on the same host or over the network.
 
 
+## Prerequisites
+
+* Python 3 (`python3`, `python3-venv`, `python3-pip`)
+* `ffmpeg` ([documentation](https://ffmpeg.org/documentation.html))
+* `libusb-1.0` ([documentation](https://libusb.info/))
+
 ## Installation
 
-**TODO:** install `ffmpeg` and `libusb-1.0-0-dev` packages
+1. Install `mediamtx` using the [documentation](https://github.com/bluenviron/mediamtx#installation)
+in that repository.  The rest of this process assumes that you have used the
+default configuration and port numbers.  If a pre-built binary is unavailable
+for your platform (e.g. arm64/aarch64), you may need to build `mediamtx` from
+source using an appropriate `golang` environment.
 
-**TODO:** install and configure `mediamtx`, set up service to autostart
-(download and configure golang env if necessary to build `mediamtx`)
+2. (*Optional*) Configure `mediamtx` to [start on boot](https://github.com/bluenviron/mediamtx#start-on-boot).
 
-**TODO:** optional python3 venv setup, PyUSB installation (package or pip3)
+3. Install `python3`, `python3-venv`, `ffmpeg`, and `libusb-1.0` (might be
+`libusb` [OS X], `libusb-1.0-0` [Debian], etc.) using your system package manager.
+`$ sudo apt install python3 python3-venv python3-pip ffmpeg libusb-1.0-0`
+
+4. Set up a Python 3 `venv` for the installation (will automatically create
+parent directories as needed).
+`$ sudo python3 -m venv /opt/videobridge/env`
+
+5. Copy code to install directory.
+`$ sudo cp -r * /opt/videobridge`
+
+6. Install Python dependencies in the virtual environment.
+```$ sudo /opt/videobridge/env/bin/python3 -m pip install -r /opt/videobridge/requirements.txt
+Collecting pyusb
+  Downloading pyusb-1.2.1-py3-none-any.whl (58 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 58.4/58.4 kB ? eta 0:00:00
+Installing collected packages: pyusb
+Successfully installed pyusb-1.2.1
+```
+
+7. (*Optional*) If you installed to somewhere other than `/opt/videobridge`.
+modify the `DIR` variable in `run-videobridge.sh`.
+
+For more information about Python 3 virtual environments, see the
+[documentation](https://docs.python.org/3/library/venv.html).
+
+
+## Usage
+
+If `mediamtx` is not running already, start it.  Then start `videobridge`:
+`$ sudo /opt/videobridge/run-videobridge.sh`
+
+Output from `videobridge` and `ffmpeg` will be mixed on stderr.
+
+> [!NOTE]
+> To avoid running as root, use a (udev)[https://www.man7.org/linux/man-pages/man7/udev.7.html]
+> rule to make the DJI Goggles accessible by a non-root user.
 
 
 ## Details
 
-Upon startup, videobridge will search the USB bus for a set of DJI FPV Goggles,
+Upon startup, `videobridge` will search the USB bus for a set of DJI FPV Goggles,
 open the USB bulk video input interface, and send the DJI DUML command to
 initiate video streaming.
 
 Once the compressed stream (AVC or HEVC elementary stream) starts arriving from
-the goggles, videobridge will wait until the first complete SPS (sequence
+the goggles, `videobridge` will wait until the first complete SPS (sequence
 parameter set) header arrives.  This SPS NALU is roughly equivalent to the 
 start of an I-frame; all subsequent NAL units can be decoded without access to
 any data arriving before the SPS NALU.  If stream synchronization fails, or the
-video stream ends, videobridge will resume searching until a valid stream is
+video stream ends, `videobridge` will resume searching until a valid stream is
 found.
 
-Once the stream is opened and synchronized, videobridge uses `ffmpeg` to
+Once the stream is opened and synchronized, `videobridge` uses `ffmpeg` to
 send the video data to a local `mediamtx` instance over RTSP (8554/tcp).
 The `mediamtx` server then re-encapsulates and streams the video to clients.
 
 > [!NOTE]
-> *No more worrying about what order you plug things in!  videobridge will
+> *No more worrying about what order you plug things in!  `videobridge` will
 > automatically reconnect when your air unit resumes sending video.*
 
 (DJI FPV Goggles v2 have been tested, v1 should work also... Goggles 2 and
