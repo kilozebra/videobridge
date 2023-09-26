@@ -1,4 +1,7 @@
 ## global imports
+from distutils.spawn import find_executable
+
+import errno
 import os
 import signal
 import subprocess
@@ -9,9 +12,9 @@ import usb
 ## local imports
 import djifpv
 
-ffmpeg_path = "/usr/bin/ffmpeg"
 sink_uri = "rtsp://127.0.0.1:8554/live/djifpv"
 
+ffmpeg_path = find_executable("ffmpeg")
 ffm_cmd = [ 'ffmpeg',
 		'-hide_banner',			## suppress config banner
 		'-fflags', 'nobuffer',		## disable buffering
@@ -22,43 +25,58 @@ ffm_cmd = [ 'ffmpeg',
 		'-rtsp_transport', 'tcp'
 	]
 
+def info(count):
+	## Periodically emit some statistics on the amount of data processed
+	info.sent += count
+	if info.loop and not info.loop % 1000:
+		now = time.time()
+		print("{:.2f} MB copied ({:.2f} Mb/s)     ".format(info.sent / 1024 / 1024, info.sent / 131072 / (now - info.last)), file=sys.stderr)
+		info.last = now
+		info.sent = 0
+	info.loop = info.loop + 1
+info.loop = info.sent = 0
+info.last = time.time()
+
+
 def do_stream():
-	ffm = subprocess.Popen(ffm_cmd + [sink_uri], stdin=subprocess.PIPE, text=False, executable=ffmpeg_path, bufsize=0)
+	ffm = None
+
 	try:
-		loop = 0
-		csent = 0
-
+		## Initialize the DJI goggle video pipeline and get first data block
 		data = djifpv.start()
-		last = time.time()
 
-		epa = djifpv.interface[1].bEndpointAddress
-		mps = djifpv.interface[1].wMaxPacketSize
-
+		## Copy data until the video stops flowing
 		while data:
+			if ffm is None:
+				ffm = subprocess.Popen(ffm_cmd + [sink_uri], stdin=subprocess.PIPE, text=False, executable=ffmpeg_path, bufsize=0)
 			ffm.stdin.write(data)
-			## :NOTE: using only wMaxPacketSize results in terrible throughput
-			data = djifpv.device.read(epa, mps << 4)
+			# info(len(data))
+			data = djifpv.read()
 
-			csent += len(data)
-			if loop and not loop % 5000:
-				now = time.time()
-				print("{:.2f} MB copied ({:.2f} Mb/s)     ".format(csent / 1024 / 1024, csent / 131072 / (now - last)), file=sys.stderr)
-				last = now
-				csent = 0
-			loop = loop + 1
-
+		## Tear down the goggle connection
 		djifpv.stop()
 	except Exception as e:
-		do_exit = False
-		do_raise = False;
-
 		if isinstance(e, IOError):
-			if e.errno != 110:
-				print("Unable to initialize bulk USB endpoint: {}".format(e), file=sys.stderr)
-			else:
+			if e.errno == errno.ETIMEDOUT:
+				## Video read timed out, no stream available.
 				djifpv.stop()
-			ffm.kill()
-			ffm.wait()
+			elif e.errno == errno.EIO:
+				print("Goggles disconnected: {}".format(e), file=sys.stderr)
+			elif e.errno == errno.ENODEV:
+				print("Goggles not found: {}".format(e), file=sys.stderr)
+			elif e.errno == errno.EBUSY:
+				print("Goggle device busy: {}".format(e), file=sys.stderr)
+				djifpv.stop()
+			elif e.errno == errno.EPIPE:
+				print("ffmpeg exited: {}".format(e), file=sys.stderr)
+				djifpv.stop()
+			else:
+				print("Unable to initialize bulk USB endpoint: {}".format(e), file=sys.stderr)
+
+			## Stop ffmpeg
+			if ffm is not None:
+				ffm.kill()
+				ffm.wait()
 		else:
 			raise
 

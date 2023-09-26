@@ -1,8 +1,10 @@
 from collections import namedtuple
-import usb.core
-import usb.util
+import errno
+import os
 import re
 import sys
+import usb.core
+import usb.util
 
 device = None
 interface = None
@@ -25,8 +27,9 @@ def start():
 	try:
 		write_interface(device, interface, magic)
 	except IOError as e:
-		print("Failed to write trigger bytes to interface, no stream available: {}".format(e), file=sys.stderr)
-		#raise
+		## Timeout errors can arise if the interface is already sending bulk video
+		if e.errno != errno.ETIMEDOUT:
+			raise
 
 	return seek_nalu(device, interface)
 
@@ -39,11 +42,12 @@ def stop():
 	interface = None
 	device = None
 
-def read():
+def read(count=None):
 	"""Read data from a stream that has already been synchronized.
 
 	Returns:
 	bytes-like object containing the next chunk of video stream data
+	count -- int number of bytes to try reading (default: None -- use 16 * wMaxPacketSize)
 
 	Raises:
 	ValueError -- stream is not yet synchronized
@@ -53,7 +57,9 @@ def read():
 
 	if not device or not interface:
 		raise ValueError("Can't read from unsynchronized object, call start method to synchronize")
-	return read_interface(device, interface)
+
+	## :NOTE: using only wMaxPacketSize results in terrible throughput
+	return read_interface(device, interface, interface[1].wMaxPacketSize << 4 if count is None else count)
 
 def find_device():
 	"""Find DJI FPV Goggles USB device.
@@ -68,7 +74,7 @@ def find_device():
 	## :TODO: Does this work with Goggles 2 and Integra?
 	dev = usb.core.find(idVendor=0x2ca3, idProduct=0x1f)
 	if dev is None:
-		raise IOError("Can't find device");
+		raise IOError(errno.ENODEV, os.strerror(errno.ENODEV))
 	return dev
 
 def setup_device(dev):
@@ -88,14 +94,15 @@ def setup_device(dev):
 	# endpoint_out, endpoint_in = intf
 	return intf
 
-def read_interface(dev, intf):
+def read_interface(dev, intf, count=None):
 	"""Convenience wrapper for usb.core.Device.read()
 
 	Keyword arguments:
 	dev -- usb.core.Device handle to goggles
 	intf -- usb.core.Interface handle to the USB bulk video endpoint
+	count -- int number of bytes to request
 	"""
-	return dev.read(intf[1].bEndpointAddress, intf[1].wMaxPacketSize)
+	return dev.read(intf[1].bEndpointAddress, count)
 
 def write_interface(dev, intf, data):
 	"""Convenience wrapper for usb.core.Device.write()
@@ -133,10 +140,10 @@ def seek_nalu(dev, intf, max_bytes=int(10e6)):
 	header_len = 2
 	while not sync:
 		if max_bytes > 0 and parsed >= max_bytes:
-			raise ValueError("No sync primitive found")
+			raise ValueError("No SPS NAL unit found")
 
 		try:
-			data = read_interface(dev, intf)
+			data = read_interface(dev, intf, intf[1].wMaxPacketSize)
 			parsed += len(data)
 
 			## Add piece of the last chunk to find NALU delimiters crossing the chunk boundary
