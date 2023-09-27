@@ -4,6 +4,15 @@
 > This code is very much a work in progress.
 
 
+## Table of Contents
+* [Description](#description)
+* [Prerequisites](#prerequisites)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Details](#details)
+* [Credits / Prior Art](#credits--prior-art)
+
+
 ## Description
 
 Streaming live digital FPV footage from your DJI goggles to share with friends
