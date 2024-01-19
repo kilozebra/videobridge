@@ -83,8 +83,10 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
     ```
     sudo systemctl daemon-reload
     sudo systemctl enable videobridge
-    sudo systemctl start videbridge
+    sudo systemctl start videobridge
     ```
+
+    To view (tail) logs from the videobridge process, run `sudo journalctl -xfu videobridge`.
 
 ## Usage
 
