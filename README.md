@@ -62,30 +62,30 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
 
 1. (*Optional*) If you installed to somewhere other than `/opt/videobridge`.  modify the `DIR` variable in `run-videobridge.sh`.
 
-For more information about Python 3 virtual environments, see the
-[documentation](https://docs.python.org/3/library/venv.html).
+    For more information about Python 3 virtual environments, see the
+    [documentation](https://docs.python.org/3/library/venv.html).
 
 1. (*Optional*) Setup udev rules for non-root access of USB devices.
 
-> [!NOTE]
-> To avoid the need to run videobridge as root, set up a [udev](https://www.man7.org/linux/man-pages/man7/udev.7.html)
-> rule to make the DJI Goggles accessible by a non-root user and/or group.
+    > [!NOTE]
+    > To avoid the need to run videobridge as root, set up a [udev](https://www.man7.org/linux/man-pages/man7/udev.7.html)
+    > rule to make the DJI Goggles accessible by a non-root user and/or group.
 
-See [the sample udev config](install/00-usb-permissions.rules), which makes all USB devices accessible by the `plugdev` group.
-Copy the file to `/etc/udev/rules.d/` and reload the rules by running `udevadm control --reload-rules && udevadm trigger` as root.
+    See [the sample udev config](install/00-usb-permissions.rules), which makes all USB devices accessible by the `plugdev` group.
+    Copy the file to `/etc/udev/rules.d/` and reload the rules by running `udevadm control --reload-rules && udevadm trigger` as root.
 
 1. (*Optional*) Configure systemd to start videobridge automatically at boot.
 
-There is a [sample systemd unit file](install/videobridge.service) included in this repository.  Copy it to `/etc/systemd/system/` and
-customize it as needed (e.g. by using root/root instead of nobody/plugdev if you didn't set up udev rules).
+    There is a [sample systemd unit file](install/videobridge.service) included in this repository.  Copy it to `/etc/systemd/system/` and
+    customize it as needed (e.g. by using root/root instead of nobody/plugdev if you didn't set up udev rules).
 
-Then, run:
+    Then, run:
 
-```
-sudo systemctl daemon-reload
-sudo systemctl enable videobridge
-sudo systemctl start videbridge
-```
+    ```
+    sudo systemctl daemon-reload
+    sudo systemctl enable videobridge
+    sudo systemctl start videbridge
+    ```
 
 ## Usage
 
