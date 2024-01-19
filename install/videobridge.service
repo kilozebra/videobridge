@@ -1,0 +1,8 @@
+[Unit]
+Wants=network.target
+[Service]
+ExecStart=/opt/videobridge/run-videobridge.sh
+User=nobody
+Group=plugdev
+[Install]
+WantedBy=multi-user.target
