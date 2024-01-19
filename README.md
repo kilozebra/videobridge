@@ -67,12 +67,11 @@ broadcasting software (e.g. OBS) running on the same host or over the network.
 
 1. (*Optional*) Setup udev rules for non-root access of USB devices.
 
-    > [!NOTE]
-    > To avoid the need to run videobridge as root, set up a [udev](https://www.man7.org/linux/man-pages/man7/udev.7.html)
-    > rule to make the DJI Goggles accessible by a non-root user and/or group.
+    To avoid the need to run videobridge as root, set up a [udev](https://www.man7.org/linux/man-pages/man7/udev.7.html)
+    rule to make the DJI Goggles accessible by a non-root user and/or group.
 
-    See [the sample udev config](install/00-usb-permissions.rules), which makes all USB devices accessible by the `plugdev` group.
-    Copy the file to `/etc/udev/rules.d/` and reload the rules by running `udevadm control --reload-rules && udevadm trigger` as root.
+    You can use the [sample udev rule file](install/00-usb-permissions.rules), which makes all USB devices accessible by the `plugdev` group.
+    Copy the file to `/etc/udev/rules.d/` and reload the rules by running `sudo udevadm control --reload-rules && sudo udevadm trigger`.
 
 1. (*Optional*) Configure systemd to start videobridge automatically at boot.
 
